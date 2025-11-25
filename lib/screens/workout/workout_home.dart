@@ -32,7 +32,7 @@ class WorkoutHome extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => WorkoutDetailPage(program: program),
+                    builder: (_) => WorkoutProgramDetailPage(program: program),
                   ),
                 ),
                 child: Padding(
@@ -70,8 +70,8 @@ class WorkoutHome extends StatelessWidget {
   }
 }
 
-class WorkoutDetailPage extends StatelessWidget {
-  const WorkoutDetailPage({super.key, required this.program});
+class WorkoutProgramDetailPage extends StatelessWidget {
+  const WorkoutProgramDetailPage({super.key, required this.program});
 
   final WorkoutProgram program;
 
