@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../models/workout_program.dart';
 import '../../services/local_data_service.dart';
-import '../../widgets/app_section_header.dart';
 
 class WorkoutHome extends StatelessWidget {
   const WorkoutHome({super.key});
@@ -19,16 +18,10 @@ class WorkoutHome extends StatelessWidget {
       body: SafeArea(
         child: ListView.separated(
           padding: const EdgeInsets.all(16),
-          itemCount: programs.length + 1,
+          itemCount: programs.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
-            if (index == 0) {
-              return const AppSectionHeader(
-                title: 'Workout programs',
-                subtitle: 'Tap a day to view the exercises and details.',
-              );
-            }
-            final program = programs[index - 1];
+            final program = programs[index];
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
