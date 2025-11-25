@@ -1,15 +1,17 @@
-# vital
+# Vital — MVP
 
-Personalized fitness and nutrition coach app
+Vital is an early-stage fitness, training, and nutrition application built in **Flutter**.  
+This MVP demonstrates the core layout, navigation structure, and sample data used as a foundation for future development.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📱 Features (MVP)
 
-A few resources to get you started if this is your first Flutter project:
+### 🏋️ Workout
+Browse sample workout programs and view exercise details.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 🍎 Nutrition
+View sample daily macros and nutrition guidance.
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
