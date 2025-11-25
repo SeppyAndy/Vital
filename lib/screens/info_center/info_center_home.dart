@@ -7,38 +7,41 @@ class InfoCenterHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Replace static topics with backend-provided content.
     final topics = LocalDataService.getInfoTopics();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Info Center'),
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: topics.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
-        itemBuilder: (context, index) {
-          final topic = topics[index];
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-              side:
-                  BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
-            ),
-            child: ListTile(
-              title: Text(topic['title'] ?? ''),
-              subtitle: Text(topic['summary'] ?? ''),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => InfoDetailPage(
-                    title: topic['title'] ?? '',
-                    summary: topic['summary'] ?? '',
+      body: SafeArea(
+        child: ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: topics.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            final topic = topics[index];
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side:
+                    BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+              ),
+              child: ListTile(
+                title: Text(topic['title'] ?? ''),
+                subtitle: Text(topic['summary'] ?? ''),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => InfoDetailPage(
+                      title: topic['title'] ?? '',
+                      summary: topic['summary'] ?? '',
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -80,6 +83,7 @@ class InfoDetailPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
+                  // TODO: Replace placeholder content with vetted research summaries.
                   'Later, this area will be replaced by curated research summaries and expert insights to guide your decisions.',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),

@@ -9,7 +9,9 @@ class TrackingProgressHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Replace with API data when backend is connected.
     final user = LocalDataService.sampleUser;
+    // TODO: Add refresh logic to sync with wearable data sources.
     final progressEntries = LocalDataService.getSampleProgress();
     final metrics = [
       _Metric(label: 'Steps', value: '8,420'),
@@ -74,6 +76,7 @@ class TrackingProgressHome extends StatelessWidget {
                 Chip(label: Text('Level: ${user.experienceLevel}')),
               ],
             )
+            // TODO: Allow user to edit profile and goal preferences.
           ],
         ),
       ),

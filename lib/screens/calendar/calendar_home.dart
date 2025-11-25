@@ -17,68 +17,72 @@ class CalendarHome extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Calendar'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  _monthLabel(now),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add session'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            _buildWeekdayHeader(context),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: cells.map((day) {
-                if (day == null) {
-                  return _DayCell.empty();
-                }
-                final date = DateTime(now.year, now.month, day);
-                final isToday = _isSameDay(date, now);
-                final isTrainingDay = [DateTime.monday, DateTime.wednesday, DateTime.friday]
-                    .contains(date.weekday);
-                return _DayCell(
-                  day: day,
-                  isToday: isToday,
-                  isTrainingDay: isTrainingDay,
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              "Today's focus",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            const ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _monthLabel(now),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      // TODO: Hook up session creation workflow.
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text('Add session'),
+                  ),
+                ],
               ),
-              tileColor: Color(0xFFF2F4F7),
-              leading: Icon(Icons.flag),
-              title: Text('Lower body strength session'),
-              subtitle: Text('Warm-up, squats, lunges, and core stability'),
-            ),
-          ],
+              const SizedBox(height: 12),
+              _buildWeekdayHeader(context),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: cells.map((day) {
+                  if (day == null) {
+                    return _DayCell.empty();
+                  }
+                  final date = DateTime(now.year, now.month, day);
+                  final isToday = _isSameDay(date, now);
+                  final isTrainingDay =
+                      [DateTime.monday, DateTime.wednesday, DateTime.friday].contains(date.weekday);
+                  return _DayCell(
+                    day: day,
+                    isToday: isToday,
+                    isTrainingDay: isTrainingDay,
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                "Today's focus",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                tileColor: Color(0xFFF2F4F7),
+                leading: Icon(Icons.flag),
+                title: Text('Lower body strength session'),
+                subtitle: Text('Warm-up, squats, lunges, and core stability'),
+              ),
+            ],
+          ),
         ),
       ),
     );

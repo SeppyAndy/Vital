@@ -5,6 +5,7 @@ import '../models/user_profile.dart';
 import '../models/workout_program.dart';
 
 class LocalDataService {
+  // TODO: Replace sample data with persistent storage or API responses.
   static final UserProfile sampleUser = UserProfile.fromJson({
     'id': 'user-1',
     'name': 'Alex',
