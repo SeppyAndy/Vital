@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'screens/calendar/calendar_home.dart';
 import 'screens/info_center/info_center_home.dart';
 import 'screens/nutrition/nutrition_home.dart';
-import 'screens/onboarding/onboarding_flow.dart';
 import 'screens/tracking_progress/tracking_progress_home.dart';
 import 'screens/workout/workout_home.dart';
 
@@ -22,33 +21,7 @@ class VitalApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const RootFlow(),
-    );
-  }
-}
-
-class RootFlow extends StatefulWidget {
-  const RootFlow({super.key});
-
-  @override
-  State<RootFlow> createState() => _RootFlowState();
-}
-
-class _RootFlowState extends State<RootFlow> {
-  bool _hasCompletedOnboarding = false;
-
-  @override
-  Widget build(BuildContext context) {
-    if (_hasCompletedOnboarding) {
-      return const MainShell();
-    }
-
-    return OnboardingFlow(
-      onFinished: () {
-        setState(() {
-          _hasCompletedOnboarding = true;
-        });
-      },
+      home: const MainShell(),
     );
   }
 }

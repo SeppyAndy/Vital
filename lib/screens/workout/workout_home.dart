@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../models/workout_program.dart';
 import '../../services/local_data_service.dart';
-import '../../widgets/app_section_header.dart';
 
 class WorkoutHome extends StatelessWidget {
   const WorkoutHome({super.key});
@@ -17,80 +16,55 @@ class WorkoutHome extends StatelessWidget {
         title: const Text('Workout'),
       ),
       body: SafeArea(
-        child: programs.isEmpty
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.fitness_center_outlined, size: 48),
-                    const SizedBox(height: 12),
-                    Text(
-                      'No workouts yet',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Sample programs will appear here later.',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ],
-                ),
-              )
-            : ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemCount: programs.length + 1,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return const AppSectionHeader(
-                      title: 'Workout programs',
-                      subtitle: 'Tap a day to view the exercises and details.',
-                    );
-                  }
-                  final program = programs[index - 1];
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      side: BorderSide(
-                          color: Theme.of(context).colorScheme.outlineVariant),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(16),
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => WorkoutProgramDetailPage(program: program),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              program.dayName,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              children: program.muscleGroups
-                                  .map((group) => Chip(label: Text(group)))
-                                  .toList(),
-                            ),
-                            const SizedBox(height: 12),
-                            Text('${program.exercises.length} exercises',
-                                style: Theme.of(context).textTheme.bodyMedium),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
+        child: ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: programs.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            final program = programs[index];
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side:
+                    BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
               ),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => WorkoutProgramDetailPage(program: program),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        program.dayName,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: program.muscleGroups
+                            .map((group) => Chip(label: Text(group)))
+                            .toList(),
+                      ),
+                      const SizedBox(height: 12),
+                      Text('${program.exercises.length} exercises',
+                          style: Theme.of(context).textTheme.bodyMedium),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
