@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'screens/calendar/calendar_home.dart';
 import 'screens/info_center/info_center_home.dart';
 import 'screens/nutrition/nutrition_home.dart';
-import 'screens/onboarding/onboarding_flow.dart';
 import 'screens/tracking_progress/tracking_progress_home.dart';
 import 'screens/workout/workout_home.dart';
-import 'services/user_settings_service.dart';
 
 void main() {
   runApp(const VitalApp());
@@ -23,56 +21,7 @@ class VitalApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const RootFlow(),
-    );
-  }
-}
-
-class RootFlow extends StatefulWidget {
-  const RootFlow({super.key});
-
-  @override
-  State<RootFlow> createState() => _RootFlowState();
-}
-
-class _RootFlowState extends State<RootFlow> {
-  bool _isReady = false;
-  bool _shouldSkipOnboarding = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
-
-  Future<void> _init() async {
-    final svc = UserSettingsService.instance;
-    await svc.load();
-
-    setState(() {
-      _isReady = true;
-      _shouldSkipOnboarding = svc.hasCompletedOnboarding;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!_isReady) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (_shouldSkipOnboarding) {
-      return const MainShell();
-    }
-
-    return OnboardingFlow(
-      onFinished: () {
-        setState(() {
-          _shouldSkipOnboarding = true;
-        });
-      },
+      home: const MainShell(),
     );
   }
 }
