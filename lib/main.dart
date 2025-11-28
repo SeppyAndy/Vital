@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'screens/calendar/calendar_home.dart';
-import 'screens/info_center/info_center_home.dart';
-import 'screens/nutrition/nutrition_home.dart';
-import 'screens/onboarding/onboarding_flow.dart';
+
 import 'screens/tracking_progress/tracking_progress_home.dart';
 import 'screens/workout/workout_home.dart';
+import 'screens/nutrition/nutrition_home.dart';
+import 'screens/calendar/calendar_home.dart';
+import 'screens/info_center/info_center_home.dart';
+import 'screens/onboarding/onboarding_flow.dart';
 import 'services/user_settings_service.dart';
 
 void main() {
@@ -49,10 +50,7 @@ class _RootFlowState extends State<RootFlow> {
     final svc = UserSettingsService.instance;
     await svc.load();
 
-    // Debug aid to trace onboarding status at startup.
-    // TODO: Remove or adjust logging when production telemetry is added.
-    // ignore: avoid_print
-    print('RootFlow: onboardingComplete = ${svc.onboardingComplete}');
+    print('DEBUG: onboardingComplete = ${svc.onboardingComplete}');
 
     setState(() {
       _isReady = true;
@@ -104,48 +102,39 @@ class _MainShellState extends State<MainShell> {
     InfoCenterHome(),
   ];
 
-  void _onDestinationSelected(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _pages,
-        ),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
-        onDestinationSelected: _onDestinationSelected,
+        onDestinationSelected: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.fitness_center_outlined),
-            selectedIcon: Icon(Icons.fitness_center),
             label: 'Workout',
           ),
           NavigationDestination(
             icon: Icon(Icons.restaurant_outlined),
-            selectedIcon: Icon(Icons.restaurant),
             label: 'Nutrition',
           ),
           NavigationDestination(
             icon: Icon(Icons.show_chart_outlined),
-            selectedIcon: Icon(Icons.show_chart),
             label: 'Progress',
           ),
           NavigationDestination(
             icon: Icon(Icons.calendar_today_outlined),
-            selectedIcon: Icon(Icons.calendar_month),
             label: 'Calendar',
           ),
           NavigationDestination(
-            icon: Icon(Icons.info_outline),
-            selectedIcon: Icon(Icons.info),
+            icon: Icon(Icons.menu_book_outlined),
             label: 'Info',
           ),
         ],
