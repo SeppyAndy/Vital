@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../services/user_settings_service.dart';
-
 class OnboardingFlow extends StatefulWidget {
   final VoidCallback onFinished;
 
@@ -16,11 +14,8 @@ class OnboardingFlow extends StatefulWidget {
 
 class _OnboardingFlowState extends State<OnboardingFlow> {
   int _currentStep = 0;
-  int? _age;
-  double? _height;
-  double? _weight;
-  String? _goal;
-  String? _experience;
+  String? _selectedGoal;
+  String? _selectedExperience;
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
@@ -80,19 +75,10 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
                           _currentStep += 1;
                         });
                       } else {
-                        final svc = UserSettingsService.instance;
-                        if (_age != null) svc.setAge(_age!);
-                        if (_height != null) svc.setHeight(_height!);
-                        if (_weight != null) svc.setWeight(_weight!);
-                        if (_goal != null) svc.setGoal(_goal!);
-                        if (_experience != null) {
-                          svc.setExperienceLevel(_experience!);
-                        }
                         widget.onFinished();
                       }
                     },
-                    child:
-                        Text(_currentStep < pages.length - 1 ? 'Next' : 'Finish'),
+                    child: Text(_currentStep < pages.length - 1 ? 'Next' : 'Finish'),
                   ),
                 ],
               ),
@@ -143,11 +129,6 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
           TextField(
             controller: _ageController,
             keyboardType: TextInputType.number,
-            onChanged: (value) {
-              setState(() {
-                _age = int.tryParse(value);
-              });
-            },
             decoration: const InputDecoration(
               labelText: 'Age',
               border: OutlineInputBorder(),
@@ -157,11 +138,6 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
           TextField(
             controller: _heightController,
             keyboardType: TextInputType.number,
-            onChanged: (value) {
-              setState(() {
-                _height = double.tryParse(value);
-              });
-            },
             decoration: const InputDecoration(
               labelText: 'Height (cm)',
               border: OutlineInputBorder(),
@@ -171,11 +147,6 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
           TextField(
             controller: _weightController,
             keyboardType: TextInputType.number,
-            onChanged: (value) {
-              setState(() {
-                _weight = double.tryParse(value);
-              });
-            },
             decoration: const InputDecoration(
               labelText: 'Weight (kg)',
               border: OutlineInputBorder(),
@@ -206,10 +177,10 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
               .map(
                 (goal) => ChoiceChip(
                   label: Text(goal),
-                  selected: _goal == goal,
+                  selected: _selectedGoal == goal,
                   onSelected: (_) {
                     setState(() {
-                      _goal = goal;
+                      _selectedGoal = goal;
                     });
                   },
                 ),
@@ -240,10 +211,10 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
               .map(
                 (level) => ChoiceChip(
                   label: Text(level),
-                  selected: _experience == level,
+                  selected: _selectedExperience == level,
                   onSelected: (_) {
                     setState(() {
-                      _experience = level;
+                      _selectedExperience = level;
                     });
                   },
                 ),
@@ -261,8 +232,8 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
 
   Widget _buildSummaryStep(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final goalText = _goal ?? 'a balanced plan';
-    final experienceText = _experience ?? 'an intermediate level';
+    final goalText = _selectedGoal ?? 'a balanced plan';
+    final experienceText = _selectedExperience ?? 'an intermediate level';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -281,11 +252,11 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
               children: [
                 Text('Summary', style: textTheme.titleMedium),
                 const SizedBox(height: 8),
-                Text('Goal: ${_goal ?? 'Not selected'}'),
-                Text('Experience: ${_experience ?? 'Not selected'}'),
-                Text('Age: ${_age?.toString() ?? (_ageController.text.isEmpty ? 'Not provided' : _ageController.text)}'),
-                Text('Height: ${_height?.toString() ?? (_heightController.text.isEmpty ? 'Not provided' : '${_heightController.text} cm')}'),
-                Text('Weight: ${_weight?.toString() ?? (_weightController.text.isEmpty ? 'Not provided' : '${_weightController.text} kg')}'),
+                Text('Goal: ${_selectedGoal ?? 'Not selected'}'),
+                Text('Experience: ${_selectedExperience ?? 'Not selected'}'),
+                Text('Age: ${_ageController.text.isEmpty ? 'Not provided' : _ageController.text}'),
+                Text('Height: ${_heightController.text.isEmpty ? 'Not provided' : '${_heightController.text} cm'}'),
+                Text('Weight: ${_weightController.text.isEmpty ? 'Not provided' : '${_weightController.text} kg'}'),
               ],
             ),
           ),
